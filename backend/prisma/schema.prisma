@@ -1,0 +1,171 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum AdminRole {
+  SUPER_ADMIN
+  MANAGER
+  SALES
+}
+
+enum EmploymentType {
+  SALARIED
+  SELF_EMPLOYED
+  BUSINESS_OWNER
+  PROFESSIONAL
+  OTHER
+}
+
+enum LeadSource {
+  WEBSITE
+  WHATSAPP
+  INSTAGRAM
+  FACEBOOK
+  GOOGLE_ADS
+  REFERRAL
+  OTHER
+}
+
+enum LeadStatus {
+  NEW
+  CONTACTED
+  DOCUMENTS_PENDING
+  ELIGIBILITY_CHECK
+  BANK_LOGIN
+  APPROVED
+  DISBURSED
+  REJECTED
+  NOT_INTERESTED
+  FOLLOW_UP
+}
+
+model AdminUser {
+  id                    String              @id @default(cuid())
+  name                  String
+  email                 String              @unique
+  passwordHash          String
+  role                  AdminRole           @default(SALES)
+  isActive              Boolean             @default(true)
+  assignedLeads         Lead[]              @relation("LeadAssignee")
+  notes                 LeadNote[]
+  statusChanges         LeadStatusHistory[] @relation("LeadStatusChangedBy")
+  createdAt             DateTime            @default(now())
+  updatedAt             DateTime            @updatedAt
+
+  @@index([role])
+  @@index([isActive])
+}
+
+model LoanService {
+  id           String   @id @default(cuid())
+  slug         String   @unique
+  name         String
+  description  String
+  isActive     Boolean  @default(true)
+  displayOrder Int      @default(0)
+  leads        Lead[]
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([isActive, displayOrder])
+}
+
+model Lead {
+  id                   String              @id @default(cuid())
+  fullName             String
+  phone                String
+  email                String?
+  city                 String
+  state                String?
+  employmentType       EmploymentType
+  monthlyIncome        Decimal?            @db.Decimal(14, 2)
+  loanAmountRequired   Decimal?            @db.Decimal(14, 2)
+  propertyValue        Decimal?            @db.Decimal(14, 2)
+  existingLoan         Boolean?
+  existingBank         String?
+  serviceId            String
+  service              LoanService         @relation(fields: [serviceId], references: [id])
+  message              String?
+  source               LeadSource          @default(WEBSITE)
+  status               LeadStatus          @default(NEW)
+  assignedToId         String?
+  assignedTo           AdminUser?          @relation("LeadAssignee", fields: [assignedToId], references: [id])
+  consentAccepted      Boolean
+  consentText          String
+  consentTimestamp     DateTime
+  notes                LeadNote[]
+  statusHistory        LeadStatusHistory[]
+  eligibilityChecks    EligibilityCheck[]
+  createdAt            DateTime            @default(now())
+  updatedAt            DateTime            @updatedAt
+
+  @@index([phone])
+  @@index([serviceId])
+  @@index([status])
+  @@index([assignedToId])
+  @@index([createdAt])
+}
+
+model LeadNote {
+  id          String    @id @default(cuid())
+  leadId      String
+  lead        Lead      @relation(fields: [leadId], references: [id], onDelete: Cascade)
+  adminUserId String
+  adminUser   AdminUser @relation(fields: [adminUserId], references: [id])
+  note        String
+  createdAt   DateTime  @default(now())
+
+  @@index([leadId])
+  @@index([adminUserId])
+}
+
+model LeadStatusHistory {
+  id          String     @id @default(cuid())
+  leadId      String
+  lead        Lead       @relation(fields: [leadId], references: [id], onDelete: Cascade)
+  oldStatus   LeadStatus
+  newStatus   LeadStatus
+  changedById String
+  changedBy   AdminUser  @relation("LeadStatusChangedBy", fields: [changedById], references: [id])
+  createdAt   DateTime   @default(now())
+
+  @@index([leadId])
+  @@index([changedById])
+}
+
+model EligibilityCheck {
+  id                      String   @id @default(cuid())
+  leadId                  String?
+  lead                    Lead?    @relation(fields: [leadId], references: [id], onDelete: SetNull)
+  monthlyIncome           Decimal  @db.Decimal(14, 2)
+  existingEmi             Decimal  @db.Decimal(14, 2)
+  requestedLoanAmount     Decimal  @db.Decimal(14, 2)
+  tenureYears             Int
+  annualInterestRate      Decimal  @db.Decimal(5, 2)
+  estimatedEligibleAmount Decimal  @db.Decimal(14, 2)
+  estimatedMaxEmi         Decimal  @db.Decimal(14, 2)
+  disclaimer              String
+  createdAt               DateTime @default(now())
+
+  @@index([leadId])
+  @@index([createdAt])
+}
+
+model EmiCalculation {
+  id                 String   @id @default(cuid())
+  principal          Decimal  @db.Decimal(14, 2)
+  annualInterestRate Decimal  @db.Decimal(5, 2)
+  tenureYears        Int
+  monthlyEmi         Decimal  @db.Decimal(14, 2)
+  totalInterest      Decimal  @db.Decimal(14, 2)
+  totalPayment       Decimal  @db.Decimal(14, 2)
+  disclaimer         String
+  createdAt          DateTime @default(now())
+
+  @@index([createdAt])
+}

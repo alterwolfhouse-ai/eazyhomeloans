@@ -1,0 +1,15 @@
+node_modules/
+dist/
+.env
+.env.*
+!.env.example
+coverage/
+.DS_Store
+
+Analyze and Proceed/node_modules/
+Analyze and Proceed/dist/
+backend/node_modules/
+backend/dist/
+
+docs/internal/
+*.zip
