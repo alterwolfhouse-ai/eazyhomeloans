@@ -13,7 +13,7 @@ const SECTIONS = [
   },
   {
     title: "3. How We Use Your Information",
-    content: `Your information is used solely to contact you for the purpose of providing home loan guidance — only after your explicit consent. We do not use your information for unsolicited marketing or share it with third parties without your consent.`,
+    content: `Your information is used solely to contact you for the purpose of providing home loan guidance - only after your explicit consent. We do not use your information for unsolicited marketing or share it with third parties without your consent.`,
   },
   {
     title: "4. Consent",
@@ -78,7 +78,7 @@ export function PrivacyPage() {
             className="text-sm"
             style={{ color: "rgba(255,255,255,0.55)" }}
           >
-            Last updated: June 2025
+            Last updated: June 2026
           </motion.p>
         </div>
       </section>

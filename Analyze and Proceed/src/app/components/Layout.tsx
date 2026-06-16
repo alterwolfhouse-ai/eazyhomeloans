@@ -302,7 +302,7 @@ function Footer() {
           style={{ borderTop: "1px solid rgba(255,255,255,0.08)" }}
         >
           <p className="text-xs" style={{ color: "rgba(255,255,255,0.35)" }}>
-            © 2025 {BRAND.name}. All rights reserved. {BRAND.domain}
+            Copyright {new Date().getFullYear()} {BRAND.name}. All rights reserved. {BRAND.domain}
           </p>
           <p className="text-xs text-center" style={{ color: "rgba(255,255,255,0.35)" }}>
             We are a loan guidance service, not a direct lender. All eligibility and EMI figures are estimates only.

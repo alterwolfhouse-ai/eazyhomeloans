@@ -11,7 +11,6 @@ export const BRAND = {
   whatsappUrl:
     "https://wa.me/919217037064?text=Hi%2C%20I%20want%20guidance%20for%20a%20home%20loan.",
   email: "hello@eazyhomeloans.in",
-  adminEmail: "admin@eazyhomeloans.in",
   addressShort: "Shop No. 5, JS Plaza, Harsh Vihar Road, 201009",
   addressFull: "Shop No. 5, JS Plaza, Harsh Vihar Road, Ghaziabad, UP 201009",
   consentText:
