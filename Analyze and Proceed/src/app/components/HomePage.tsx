@@ -259,33 +259,20 @@ export function HomePage() {
               </div>
             </motion.div>
 
-            <motion.div
-              className="absolute -bottom-4 -right-2 floating-delay hidden lg:block"
-              initial={{ opacity: 0, x: -30 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.9, duration: 0.8 }}
-            >
-              <div className="glass-card rounded-2xl px-5 py-4 shadow-xl">
-                <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-xl flex items-center justify-center" style={{ background: "rgba(200,150,30,0.15)" }}>
-                    <Calculator size={18} style={{ color: "#C8961E" }} />
-                  </div>
-                  <div>
-                    <p className="text-xs font-semibold" style={{ color: "#0C2D6B", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>EMI Estimate</p>
-                    <p className="text-xs" style={{ color: "#5A6B8A" }}>Indicative only</p>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-
             {/* Lead Form Card */}
             <motion.div
               initial={{ opacity: 0, y: 40, scale: 0.95 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               transition={{ duration: 0.8, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
-              className="w-full max-w-sm"
+              className="relative z-10 w-full max-w-sm"
             >
-              <div className="glass-card rounded-3xl p-6 shadow-2xl" style={{ border: "1px solid rgba(255,255,255,0.5)" }}>
+              <div
+                className="glass-card rounded-3xl p-6 shadow-2xl"
+                style={{
+                  background: "rgba(255,255,255,0.9)",
+                  border: "1px solid rgba(255,255,255,0.72)",
+                }}
+              >
                 <p className="font-bold text-base mb-1" style={{ color: "#0C2D6B", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>
                   Get Loan Guidance
                 </p>
@@ -362,11 +349,35 @@ export function HomePage() {
                         boxShadow: "0 4px 16px rgba(12,45,107,0.35)",
                       }}
                     >
-                      Get Expert Guidance →
+                      Get Expert Guidance
                     </button>
                   </form>
                 )}
               </div>
+              <motion.div
+                className="mt-4 hidden justify-end lg:flex floating-delay"
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.9, duration: 0.8 }}
+              >
+                <div
+                  className="glass-card rounded-2xl px-5 py-4 shadow-xl"
+                  style={{
+                    background: "rgba(255,255,255,0.82)",
+                    border: "1px solid rgba(255,255,255,0.6)",
+                  }}
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="w-9 h-9 rounded-xl flex items-center justify-center" style={{ background: "rgba(200,150,30,0.15)" }}>
+                      <Calculator size={18} style={{ color: "#C8961E" }} />
+                    </div>
+                    <div>
+                      <p className="text-xs font-semibold" style={{ color: "#0C2D6B", fontFamily: "'Plus Jakarta Sans', sans-serif" }}>EMI Estimate</p>
+                      <p className="text-xs" style={{ color: "#5A6B8A" }}>Indicative only</p>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
             </motion.div>
           </div>
         </div>
